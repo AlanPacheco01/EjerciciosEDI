@@ -5,41 +5,109 @@ namespace Tienda
     class TiendaController
     {
         TiendaService conexion = new TiendaService();
-        
+        TiendaModel user = new TiendaModel();
+
         public void Interaccion()
         {
+            int seleccion;
             conexion.DatosPrueba();
-            do
+            bool isvalid = conexion.ValidarUsuario();
+            /*
+             "Correo: " + "scuevasa@gmail.com", "Password: " + "CorazonMelon@8"
+             */
+            if (isvalid)
             {
-                Console.WriteLine("El siguiente programa le permitirá interactuar con la información de un usuario, seleccione: " +
-                "\n1.Crear un nuevo usuario" +
-                "\n2.Mostrar a los usuarios existentes" +
-                "\n3.Buscar un usuario" +
-                "\n4.Actualizar datos" +
-                "\n5.Eliminar a un usuario" +
-                "\nO presione 0 para salir del programa");
-                string input = Console.ReadLine();
-                int seleccion = Convert.ToInt32(input);
-
-                switch (seleccion)
+                do
                 {
-                    case 1:
-                        CrearUsuario();
-                        break;
-                    case 2:
-                        ShowAllUsers();
-                        break;
-                    case 3:
-                        conexion.BuscarUsuario();
-                        break;
-                    case 4:
-                        conexion.ActualizarDatos();
-                        break;
-                    case 5:
-                        conexion.EliminarUsuario();
-                        break;
-                }
-            } while (true);
+                Inicio:
+                    Console.WriteLine("El siguiente programa le permitirá interactuar con la información de un usuario, seleccione: " +
+                    "\n1.Crear un nuevo usuario" +
+                    "\n2.Mostrar a los usuarios existentes" +
+                    "\n3.Buscar un usuario" +
+                    "\n4.Actualizar datos" +
+                    "\n5.Eliminar a un usuario" +
+                    "\nO presione 0 para salir del programa");
+                    string input = Console.ReadLine();
+                    seleccion = Convert.ToInt32(input);
+
+                    switch (seleccion)
+                    {
+                        case 1:
+                            Console.WriteLine("La siguiente operación requiere que confirme su contraseña para continuar" +
+                                "\nIngrese contraseña: ");
+                            string inputPassword = Console.ReadLine();
+                            bool IsValidPassword = inputPassword.Equals(conexion.RegistroConstrasena());
+                            if (IsValidPassword)
+                            {
+                                CrearUsuario();
+                                conexion.RegistroUsuario();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Contraseña erronea");
+                                goto Inicio;
+                            }
+                            break;
+                        case 2:
+                            ShowAllUsers();
+                            break;
+                        case 3:
+                            conexion.BuscarUsuario();
+                            break;
+                        case 4:
+                            Console.WriteLine("La siguiente operación requiere que confirme su contraseña para continuar" +
+                                "\nIngrese contraseña: ");
+                            string inputActualizar = Console.ReadLine();
+                            bool IsValidActualizar = inputActualizar.Equals(conexion.RegistroConstrasena());
+                            if (IsValidActualizar)
+                            {
+                                conexion.ActualizarDatos();
+                                conexion.RegistroUsuario();
+
+
+                            }
+                            else
+                            {
+                                Console.WriteLine("Contraseña erronea");
+                                goto Inicio;
+                            }
+                            break;
+                        case 5:
+                            Console.WriteLine("La siguiente operación requiere que confirme su contraseña para continuar" +
+                                "\nIngrese contraseña: ");
+                            string inputEliminar = Console.ReadLine();
+                            bool IsValidEliminar = inputEliminar.Equals(conexion.RegistroConstrasena());
+                            if (IsValidEliminar)
+                            {
+                                conexion.EliminarUsuario();
+                                conexion.RegistroUsuario();
+
+                            }
+                            else
+                            {
+                                Console.WriteLine("Contraseña erronea");
+                                goto Inicio;
+                            }
+                            break;
+                        case 0:
+                            Console.WriteLine($"Gracias por usar nuestros servicios");
+                            break;
+                        case 2024:
+                            Console.WriteLine("Opción de superadministrador, imprime registros de modificaciones");
+                            conexion.ImprimeRegistros();
+
+                            break;
+                        default:
+                            Console.WriteLine("Ha seleccionado una opción inválida");
+                            break;
+                    }
+                } while (seleccion != 0);
+            }
+            else
+            {
+                Console.WriteLine("Usuario o contraseña erroneo");
+            }
+            Console.ReadKey();
         }
 
         public void CrearUsuario()

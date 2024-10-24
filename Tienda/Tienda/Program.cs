@@ -12,8 +12,9 @@ namespace Tienda
     {
         static void Main(string[] args)
         {
-            TiendaController tienda = new TiendaController();
+           TiendaController tienda = new TiendaController();
             tienda.Interaccion();
+            
         }
     }
 }

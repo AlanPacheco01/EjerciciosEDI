@@ -16,7 +16,4 @@ TiendaRepository - Contiene una coleccion observable de objetos iterables, se cr
 sucursales, turno y tipo de empleado, son archivos enum en donde se almacena un listado con la ubicación de la sucursal, el turno y el tipo de empleado. se emplearon 
 en conjunto con TiendaService para la construcción del proyecto.
 
-Notas personales:
-Se requiere mejorar algunos aspectos del código, ya que algunos archivos no cuentan con la validación de los datos, lo que podría generar que el código se rompa durante la operación.
-Se requiere mejorar la experiencia del usuario, ya que varias pantallas se encuentran saturadas de texto
 

@@ -10,6 +10,7 @@ namespace Tienda
     class TiendaRepository<T>
     {
         public ObservableCollection<T> usuarios;
+        public ObservableCollection<T> registroCambios;
 
 
         public void Prueba()
@@ -21,7 +22,9 @@ namespace Tienda
         public TiendaRepository()
         {
             usuarios = new ObservableCollection<T>();
+            registroCambios = new ObservableCollection<T>();
         }
+        
 
 
         public T Add(T item)
@@ -30,13 +33,13 @@ namespace Tienda
             return item;
         }
 
-        //public List<string> Remove(List<string> item) 
+        //public List<string> Remove(List<string> item)
         //{
         //    usuarios.Remove(item);
         //    return item;
         //}
 
-        //public IEnumerableList <string> GetAll()
+        //public IEnumerableList<string> GetAll()
         //{
         //    return usuarios;
         //}

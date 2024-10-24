@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -18,6 +19,7 @@ namespace Tienda
         DELETE -eliminar un usuario -- Nivel gerencial
          */
         TiendaRepository<List<string>> tiendaRepository = new TiendaRepository<List<string>>();
+        TiendaRepository<List<string>> registroCambios = new TiendaRepository<List<string>>();
         TiendaModel user = new TiendaModel();
 
         //Método para crear un nuevo usuario 
@@ -51,7 +53,6 @@ namespace Tienda
             } while (fin);
 
         }
-
         public void IngresaApaterno()
         {
             bool fin;
@@ -81,7 +82,6 @@ namespace Tienda
             } while (fin);
 
         }
-
         public void IngresaAmaterno()
         {
             bool fin;
@@ -110,7 +110,6 @@ namespace Tienda
                 }
             } while (fin);
         }
-
         public void IngresaCorreo()
         {
             bool fin;
@@ -139,7 +138,6 @@ namespace Tienda
                 }
             } while (fin);
         }
-
         public void IngresaPassword()
         {
             bool fin;
@@ -168,7 +166,6 @@ namespace Tienda
                 }
             } while (fin);
         }
-
         public void IngresaTipoEmpleado()
         {
             bool seleccionEmpleado;
@@ -302,7 +299,6 @@ namespace Tienda
                 }
             } while (cicloSucursal);
         }
-
         public void IngresaTurno()
         {
             bool seleccionTurno;
@@ -347,21 +343,22 @@ namespace Tienda
             } while (seleccionTurno);
 
         }
-
         public void DatosPrueba()
         {
-            var pruebaUno = new List<string> { "Nombre(s): " + "Juan Pablo", "Apellido Paterno: " + "Ortega", "Apellido Materno: " + "Gazette", "Correo: " + "portega@gmail.com", "Password: " + "1234567890", "Tipo de empleado: " + "asesor", "Sucursal: " + "coyoacán", "Turno: " + "Matutino" };
-            var pruebaSeis = new List<string> { "Nombre(s): " + "Ana Karen", "Apellido Paterno: " + "Ortega", "Apellido Materno: " + "Sántos", "Correo: " + "portega@gmail.com", "Password: " + "1234567890", "Tipo de empleado: " + "asesor", "Sucursal: " + "coyoacán", "Turno: " + "Matutino" };
-            var pruebaDos = new List<string> { "Nombre(s): " + "Carolina", "Apellido Paterno: " + "Herrera", "Apellido Materno: " + "López", "Correo: " + "cherrera@gmail.com", "Password: " + "1234567890", "Tipo de empleado: " + "vendedor", "Sucursal: " + "taxqueña", "Turno: " + "Vespertino" };
-            var pruebaTres = new List<string> { "Nombre(s): " + "Sandra", "Apellido Paterno: " + "Sánchez", "Apellido Materno: " + "Almazán", "Correo: " + "salmazan@gmail.com", "Password: " + "1234567890", "Tipo de empleado: " + "outsourcing", "Sucursal: " + "perisur", "Turno: " + "Nocturno" };
-            var pruebaCuatro = new List<string> { "Nombre(s): " + "Carolina", "Apellido Paterno: " + "Herrera", "Apellido Materno: " + "Castro", "Correo: " + "cherrera@gmail.com", "Password: " + "1234567890", "Tipo de empleado: " + "vendedor", "Sucursal: " + "taxqueña", "Turno: " + "Vespertino" };
-            var pruebaCinco = new List<string> { "Nombre(s): " + "Sandra", "Apellido Paterno: " + "Cuevas", "Apellido Materno: " + "Castro", "Correo: " + "cherrera@gmail.com", "Password: " + "1234567890", "Tipo de empleado: " + "vendedor", "Sucursal: " + "taxqueña", "Turno: " + "Vespertino" };
+            var pruebaUno = new List<string> { "Nombre(s): " + "Juan Pablo", "Apellido Paterno: " + "Ortega", "Apellido Materno: " + "Gazette", "Correo: " + "portega@gmail.com", "Password: " + "Sistemas12@", "Tipo de empleado: " + "asesor", "Sucursal: " + "coyoacán", "Turno: " + "Matutino" };
+            var pruebaDos = new List<string> { "Nombre(s): " + "Carolina Andrea", "Apellido Paterno: " + "Herrera", "Apellido Materno: " + "López", "Correo: " + "cherrera@gmail.com", "Password: " + "Pulparindo12@", "Tipo de empleado: " + "vendedor", "Sucursal: " + "taxqueña", "Turno: " + "Vespertino" };
+            var pruebaTres = new List<string> { "Nombre(s): " + "Sandra", "Apellido Paterno: " + "Sánchez", "Apellido Materno: " + "Almazán", "Correo: " + "salmazan@gmail.com", "Password: " + "Camila78@", "Tipo de empleado: " + "outsourcing", "Sucursal: " + "perisur", "Turno: " + "Nocturno" };
+            var pruebaCuatro = new List<string> { "Nombre(s): " + "Carolina Fernanda", "Apellido Paterno: " + "Herrera", "Apellido Materno: " + "Castro", "Correo: " + "castro@gmail.com", "Password: " + "Juan1235@", "Tipo de empleado: " + "vendedor", "Sucursal: " + "taxqueña", "Turno: " + "Vespertino" };
+            var pruebaCinco = new List<string> { "Nombre(s): " + "Sandra María", "Apellido Paterno: " + "Cuevas", "Apellido Materno: " + "Castro", "Correo: " + "scuevasa@gmail.com", "Password: " + "CorazonMelon@8", "Tipo de empleado: " + "vendedor", "Sucursal: " + "taxqueña", "Turno: " + "Vespertino" };
+            var pruebaSeis = new List<string> { "Nombre(s): " + "Ana Karen", "Apellido Paterno: " + "Ortega", "Apellido Materno: " + "Sántos", "Correo: " + "santos@gmail.com", "Password: " + "Ventas456@", "Tipo de empleado: " + "asesor", "Sucursal: " + "coyoacán", "Turno: " + "Matutino" };
+            var pruebaSiete = new List<string> { "Nombre(s): " + "Alan Alberto", "Apellido Paterno: " + "Pacheco", "Apellido Materno: " + "Ramírez", "Correo: " + "iq.alpa95@gmail.com", "Password: " + "Soporte.2029@", "Tipo de empleado: " + "Desarrollo", "Sucursal: " + "Santa Fé", "Turno: " + "Matutino" };
             tiendaRepository.Add(pruebaUno);
             tiendaRepository.Add(pruebaDos);
             tiendaRepository.Add(pruebaTres);
             tiendaRepository.Add(pruebaCuatro);
             tiendaRepository.Add(pruebaCinco);
             tiendaRepository.Add(pruebaSeis);
+            tiendaRepository.Add(pruebaSiete);
         }
         public void GuardarDatos()
         {
@@ -377,7 +374,6 @@ namespace Tienda
             var temp = new List<string> { "Nombre(s): " + addName, "Apellido Paterno: " + addFlname, "Apellido Materno: " + addSlname, "Correo: " + addCorreo, "Password: " + addPassword, "Tipo de empleado: " + addTipoEmpleado, "Sucursal: " + addSucursal, "Turno: " + addTurno };
             tiendaRepository.Add(temp);
         }
-
         public void MostrarDatos()
         {
             foreach (var empleado in tiendaRepository.usuarios)
@@ -395,7 +391,6 @@ namespace Tienda
                 Console.WriteLine($"\n{separador}\n");
             }
         }
-
         public void BuscarUsuario()
         {
             Console.WriteLine("Sección dedicada a buscar datos de un empleado, seleccione " +
@@ -439,7 +434,7 @@ namespace Tienda
                                     {
                                         Console.WriteLine(dato);
                                     }
-                                        Console.WriteLine($"El ID del empleado es: {tiendaRepository.usuarios.IndexOf(empleado)}");
+                                    Console.WriteLine($"El ID del empleado es: {tiendaRepository.usuarios.IndexOf(empleado)}");
 
                                     break;
                                 }
@@ -493,7 +488,6 @@ namespace Tienda
                 Console.WriteLine("Este campo no se puede dejar vacío y solo debe contener un número");
             }
         }
-
         public void ActualizarDatos()
         {
             BuscarUsuario();
@@ -518,9 +512,9 @@ namespace Tienda
                     string inputCorreccionNombre = Console.ReadLine();
                     string correccionNombre = "Nombre(s): " + inputCorreccionNombre;
 
-                    foreach(var empleados in tiendaRepository.usuarios)
+                    foreach (var empleados in tiendaRepository.usuarios)
                     {
-                        if (tiendaRepository.usuarios.IndexOf(empleados)==confirmacionId)
+                        if (tiendaRepository.usuarios.IndexOf(empleados) == confirmacionId)
                         {
                             empleados[0] = correccionNombre;
                             Console.WriteLine(empleados[0]);
@@ -632,7 +626,6 @@ namespace Tienda
             }
 
         }
-
         public void EliminarUsuario()
         {
             BuscarUsuario();
@@ -649,13 +642,58 @@ namespace Tienda
                 }
             }
         }
-        
-
+        public bool ValidarUsuario()
+        {
+            
+            int j = 0;
+            Console.WriteLine("Ingrese correo: ");
+            string logCorreo = Console.ReadLine();
+            string vCorreo = "Correo: " + logCorreo;
+            Console.WriteLine("Ingrese contraseña: ");
+            string logContrasena = Console.ReadLine();
+            string vContrasena = "Password: " + logContrasena;
+            foreach (var empleado in tiendaRepository.usuarios)
+            {
+                bool IsValidCorreo = empleado.Contains(vCorreo);
+                bool IsValidContrasena = empleado.Contains(vContrasena);
+                if (IsValidCorreo && IsValidContrasena)
+                {
+                    Console.WriteLine($"Welcome {logCorreo}");
+                    user.SetCorreo(logCorreo);
+                    user.SetPassword(logContrasena);
+                    return true;
+                }
+                else if (!IsValidContrasena && !IsValidCorreo)
+                {
+                    j++;
+                    if (j == tiendaRepository.usuarios.Count)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+            }
+            return false;
+        }
+        public string RegistroUsuario()
+        {
+            string registro = user.GetCorreo();
+            return registro;
+        }
+        public string RegistroConstrasena()
+        {
+            string registro = user.GetPassword();
+            return registro;
+        }
+        public void ImprimeRegistros()
+        {
+            //string fileName = $"Registros{DateTime.Now}";
+            string path = string.Format(@"C:\Users\apacheco\source\repos\Tienda\Tienda\assets\Registros{0:yyyy-MM-dd_HH-mm-ss}.txt",DateTime.Now);
+            string content = $"último cambio realizado por {RegistroUsuario()} {DateTime.Now}";
+            File.WriteAllText(path,content);
+        }
     }
 }
-
-
-
-
-
-
