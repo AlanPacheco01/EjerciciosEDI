@@ -22,6 +22,7 @@ namespace Tienda
             TiendaController tienda = new TiendaController();
             mensajes.DibujoSup();
             tienda.Interaccion();
+
         }
     }
 }

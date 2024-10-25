@@ -139,6 +139,7 @@ namespace Tienda
                 Match ingresoTrue = Regex.Match(ingresaTexto, regexCorreo);
                 bool IsValidEmail = ingresoTrue.Success;
                 bool IsEmptyEmail = string.IsNullOrWhiteSpace(ingresaTexto);
+
                 if (IsValidEmail && !IsEmptyEmail)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
@@ -175,7 +176,8 @@ namespace Tienda
                 Match ingresoTrue = Regex.Match(ingresaTexto, regexPassword);
                 bool IsValidPassword = ingresoTrue.Success;
                 bool IsEmptyPassword = string.IsNullOrWhiteSpace(ingresaTexto);
-                if (IsValidPassword && IsEmptyPassword)
+
+                if (IsValidPassword && !IsEmptyPassword)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
                     user.SetPassword(ingresaTexto);
@@ -313,7 +315,7 @@ namespace Tienda
                 cicloSucursal = true;
                 if (IsValidSucursal && !IsEmptySucursal)
                 {
-                    int seleccionSucursal = Convert.ToInt32(Console.ReadLine());
+                    int seleccionSucursal = Convert.ToInt32(inputSucursal);
                     switch (seleccionSucursal)
                     {
                         case 1:
@@ -503,21 +505,75 @@ namespace Tienda
             }
         }
 
-        //Busca los datos de los empleados en función de los apellidos del empleado y 
-        //su correo electrónico
-        
+        //Solicita al usuario los datos del empleado que va a buscar, en caso que exista una coincidencia positiva
+        //retrona un valor true, de lo contrario es false
         public bool BuscarApellido()
         {
-            if ()
+            //Ingresa los datos del usuario
+            Console.WriteLine("Ingrese el apellido paterno del empleado");
+            string aPaterno = Console.ReadLine();
+            string busquedaPaterno = "Apellido Paterno: " + aPaterno;
+            bool aPaternoEmpty = string.IsNullOrEmpty(aPaterno);
+            Console.WriteLine("Ingrese el apellido Materno del empleado");
+            string aMaterno = Console.ReadLine();
+            string busquedaMaterno = "Apellido Materno: " + aMaterno;
+
+            //Patrón para validad que solo se acepte texto de parte del usuario
+            //Valida el Apellido paterno
+            string regexTexto = @"^([^0-9]+)*$";
+            Match ingresoTrue = Regex.Match(aPaterno, regexTexto);
+            bool IsValidPaterno = ingresoTrue.Success;
+            bool IsEmptyPaterno = string.IsNullOrWhiteSpace(aPaterno);
+
+            //Valida el apellido paterno         
+            Match ingresoMaterno = Regex.Match(aMaterno, regexTexto);
+            bool IsValidMaterno = ingresoTrue.Success;
+            bool IsEmptyMaterno = string.IsNullOrWhiteSpace(aMaterno);
+
+            //encapsula a la colección empleados en una variable más compacta
+            var coleccionEmpleados = tiendaRepository.usuarios;
+            bool bPaterno;
+            bool bMaterno;
+            int j = 0;
+
+            if (IsValidPaterno && IsValidMaterno && !IsEmptyPaterno && !IsEmptyMaterno)
             {
-                return true;
+                foreach (var empleado in coleccionEmpleados)
+                {
+                    bPaterno = empleado.Contains(busquedaPaterno);
+                    bMaterno = empleado.Contains(busquedaMaterno);
+                    if (bPaterno && bMaterno)
+                    {
+                        foreach (var dato in empleado)
+                        {
+                            Console.WriteLine($"\n{dato}\n");
+                        }
+                        Console.WriteLine($"\nEl ID del empleado es: {tiendaRepository.usuarios.IndexOf(empleado)}\n");
+                        return true;
+                    }
+                    else if (!bPaterno && !bMaterno)
+                    {
+                        j++;
+
+                        if (j == coleccionEmpleados.Count)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            Console.WriteLine("No se ha encontrado al empleado, verifique los datos de ingreso");
+                            Console.ForegroundColor = ConsoleColor.White;
+                            return false;
+                        }
+                    }
+                }
+                return false;
             }
             else
             {
                 return false;
             }
         }
-        
+
+        //Busca los datos de los empleados en función de los apellidos del empleado y 
+        //su correo electrónico
         public void BuscarUsuario()
         {
             //Le informa al usuario la utilidad de esta sección
@@ -674,179 +730,421 @@ namespace Tienda
                 throw new InvalidDataException();
             }
         }
+        //Método para actualizar los datos de un empleado, toma como parámetros los apellidos del empelado
         public void ActualizarDatos()
         {
-            BuscarUsuario();
-            Console.WriteLine("Confirme el ID del empleado para continuar con la operación: ");
-            string inputName = Console.ReadLine();
-            int confirmacionId = Convert.ToInt32(inputName);
-            Console.WriteLine("Seleccione la operación que desea realizar:" +
-                "\n1.Actualizar Nombre(s)" +
-                "\n2.Actualizar Apellido Paterno" +
-                "\n3.Actualizar Apellido MAterno" +
-                "\n4.Actualizar Correo" +
-                "\n5.Actualizar Password" +
-                "\n6.Actualizar Tipo Empleado" +
-                "\n7.Actualizar Sucursal" +
-                "\n8.Actualizar Turno");
-            string input = Console.ReadLine();
-            int seleccion = Convert.ToInt32(input);
-            switch (seleccion)
+            //Se usa el método buscar usuario para esta operación, si el resultado es verdadero se procede
+            //Con la operación, de contrario se cancela
+            if (BuscarApellido())
             {
-                case 1:
-                    Console.WriteLine("Ingrese el nuevo nombre del empleado: ");
-                    string inputCorreccionNombre = Console.ReadLine();
-                    string correccionNombre = "Nombre(s): " + inputCorreccionNombre;
 
-                    foreach (var empleados in tiendaRepository.usuarios)
-                    {
-                        if (tiendaRepository.usuarios.IndexOf(empleados) == confirmacionId)
-                        {
-                            empleados[0] = correccionNombre;
-                            Console.WriteLine(empleados[0]);
-                        }
-                    }
-                    break;
-                case 2:
-                    Console.WriteLine("Ingrese el nuevo apellido paterno del empleado: ");
-                    string inputCorreccionApaterno = Console.ReadLine();
-                    string correccionApaterno = "Apellido Paterno: " + inputCorreccionApaterno;
+                //Solicita la confirmación del Id para que el método foreach pueda iterar sobre la colección de empleados                
+                Console.WriteLine("Confirme el ID del empleado para continuar con la operación: ");
+                string inputID = Console.ReadLine();
+                string patterSeleccion = @"^[0-9]{1,1}$";
+                Match RegexId = Regex.Match(inputID, patterSeleccion);
+                bool IsValidId = RegexId.Success;
+                bool IsEmptyId = string.IsNullOrEmpty(inputID);
 
-                    foreach (var empleados in tiendaRepository.usuarios)
-                    {
-                        if (tiendaRepository.usuarios.IndexOf(empleados) == confirmacionId)
-                        {
-                            empleados[1] = correccionApaterno;
-                            Console.WriteLine(empleados[1]);
-                        }
-                    }
-                    break;
-                case 3:
-                    Console.WriteLine("Ingrese el nuevo apellido materno del empleado: ");
-                    string inputCorreccionAmaterno = Console.ReadLine();
-                    string correccionAmaterno = "Apellido Paterno: " + inputCorreccionAmaterno;
-
-                    foreach (var empleados in tiendaRepository.usuarios)
-                    {
-                        if (tiendaRepository.usuarios.IndexOf(empleados) == confirmacionId)
-                        {
-                            empleados[2] = correccionAmaterno;
-                            Console.WriteLine(empleados[2]);
-                        }
-                    }
-                    break;
-                case 4:
-                    Console.WriteLine("Ingrese el nuevo correo del empleado: ");
-                    string inputCorreccionCorreo = Console.ReadLine();
-                    string correccionCorreo = "Correo: " + inputCorreccionCorreo;
-
-                    foreach (var empleados in tiendaRepository.usuarios)
-                    {
-                        if (tiendaRepository.usuarios.IndexOf(empleados) == confirmacionId)
-                        {
-                            empleados[3] = correccionCorreo;
-                            Console.WriteLine(empleados[3]);
-                        }
-                    }
-                    break;
-                case 5:
-                    Console.WriteLine("Ingrese el nuevo password del empleado: ");
-                    string inputCorreccionPassword = Console.ReadLine();
-                    string correccionPassword = "Password: " + inputCorreccionPassword;
-
-                    foreach (var empleados in tiendaRepository.usuarios)
-                    {
-                        if (tiendaRepository.usuarios.IndexOf(empleados) == confirmacionId)
-                        {
-                            empleados[4] = correccionPassword;
-                            Console.WriteLine(empleados[4]);
-                        }
-                    }
-                    break;
-                case 6:
-                    Console.WriteLine("Ingrese el nuevo rol empleado: ");
-                    string inputCorreccionTipoEmpleado = Console.ReadLine();
-                    string correccionTipoEmpleado = "Tipo de empleado: " + inputCorreccionTipoEmpleado;
-
-                    foreach (var empleados in tiendaRepository.usuarios)
-                    {
-                        if (tiendaRepository.usuarios.IndexOf(empleados) == confirmacionId)
-                        {
-                            empleados[5] = correccionTipoEmpleado;
-                            Console.WriteLine(empleados[5]);
-                        }
-                    }
-                    break;
-                case 7:
-                    Console.WriteLine("Ingrese la nueva sucursal a la que será asignado el empelado: ");
-                    string inputCorreccionSucursal = Console.ReadLine();
-                    string correccionSucursal = "Sucursal: " + inputCorreccionSucursal;
-
-                    foreach (var empleados in tiendaRepository.usuarios)
-                    {
-                        if (tiendaRepository.usuarios.IndexOf(empleados) == confirmacionId)
-                        {
-                            empleados[6] = correccionSucursal;
-                            Console.WriteLine(empleados[6]);
-                        }
-                    }
-                    break;
-                case 8:
-                    Console.WriteLine("Ingrese el nuevo turno del empelado: ");
-                    string inputCorreccionTurno = Console.ReadLine();
-                    string correccionTurno = "Turno: " + inputCorreccionTurno;
-
-                    foreach (var empleados in tiendaRepository.usuarios)
-                    {
-                        if (tiendaRepository.usuarios.IndexOf(empleados) == confirmacionId)
-                        {
-                            empleados[7] = correccionTurno;
-                            Console.WriteLine(empleados[7]);
-                        }
-                    }
-                    break;
-                default:
-                    Console.WriteLine("Ha ingresado una opción que no es válida");
-                    break;
-            }
-        }
-        public void EliminarUsuario()
-        {
-            BuscarUsuario();
-            Console.WriteLine("Confirme el ID del empleado para continuar con la operación: ");
-            string inputName = Console.ReadLine();
-            int confirmacionId = Convert.ToInt32(inputName);
-            foreach (var empleados in tiendaRepository.usuarios)
-            {
-                if (tiendaRepository.usuarios.IndexOf(empleados) == confirmacionId)
+                //Cuando se confirma el Id del empleado se procede con la actualización de los datos
+                if (IsValidId && !IsEmptyId)
                 {
-                    tiendaRepository.usuarios.Remove(empleados);
-                    Console.WriteLine(empleados[confirmacionId]);
-                    break;
+                    //Convierte la opción ingresada a un int para acceder a las opciones
+                    int confirmacionId = Convert.ToInt32(inputID);
+
+                    //Le informa al usuario las opciones que están disponibles en la aplicación
+                    Console.WriteLine("Seleccione la operación que desea realizar:" +
+                        "\n1.Actualizar Nombre(s)" +
+                        "\n2.Actualizar Apellido Paterno" +
+                        "\n3.Actualizar Apellido MAterno" +
+                        "\n4.Actualizar Correo" +
+                        "\n5.Actualizar Password" +
+                        "\n6.Actualizar Tipo Empleado" +
+                        "\n7.Actualizar Sucursal" +
+                        "\n8.Actualizar Turno");
+
+                    //valida que la selección sea un entero, con un solo dígito y se encuentre dentro de las opciones 
+                    //mediante un switch-case
+                    string inputSeleccion = Console.ReadLine();
+                    Match RegexSeleccion = Regex.Match(inputSeleccion, patterSeleccion);
+                    bool IsEmptySeleccion = string.IsNullOrEmpty(inputSeleccion);
+                    bool IsValidSeleccion = RegexSeleccion.Success;
+
+                    //Si es válido se procede con las operaciones
+                    if (IsValidSeleccion && !IsEmptySeleccion)
+                    {
+                        int seleccion = Convert.ToInt32(inputSeleccion);
+
+                        //almacena las opciones disponibles, se activa en función de la elección del empleado
+                        switch (seleccion)
+                        {
+                            //Actualiza el nombre del usuario
+                            case 1:
+
+                                //Solicita la corrección de nombre de empleado al usuario
+                                Console.WriteLine("Ingrese el nuevo nombre del empleado: ");
+                                string inputCorreccionNombre = Console.ReadLine();
+
+                                //Patrón para validad que solo se acepte texto de parte del usuario
+                                string regexNombre = @"^([^0-9]+)*$";
+                                Match ingresoTrue = Regex.Match(inputCorreccionNombre, regexNombre);
+                                bool IsValidName = ingresoTrue.Success;
+                                bool IsEmptyName = string.IsNullOrWhiteSpace(inputCorreccionNombre);
+
+                                //Si los datos son válidos y no se tienen campos vacío se procede con la operación
+                                if (IsValidName && !IsEmptyName)
+                                {
+                                    //si el patrón es válido se concatena con el parámetro nombre, de modo que sirva como
+                                    //referencia para iterar sobre el array
+                                    string correccionNombre = "Nombre(s): " + inputCorreccionNombre;
+
+                                    //Itera sobre la colección usuarios
+                                    foreach (var empleados in tiendaRepository.usuarios)
+                                    {
+                                        //Si el Id es confirmado se selecciona el index que esta información ocupa en la colección 
+                                        //empleados
+                                        if (tiendaRepository.usuarios.IndexOf(empleados) == confirmacionId)
+                                        {
+                                            //Al campo nombre le corresponde la posición 0 dentro de la colección, 
+                                            //cuando se confirma la información, se sobreescribe la información anterior
+                                            //con la que ha ingresado el usuario
+                                            empleados[0] = correccionNombre;
+                                            Console.WriteLine($"Se ha actualizado el nombre del empleado con el id: {confirmacionId}" +
+                                                $"\nEl nuevo nombre  es: {empleados[0]}");
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    throw new InvalidDataException();
+                                }
+                                break;
+                            case 2:
+
+                                //Solicita la corrección de nombre de empleado al usuario
+                                Console.WriteLine("Ingrese el nuevo apellido paterno del empleado: ");
+                                string inputCorreccionApaterno = Console.ReadLine();
+
+                                //Patrón para validad que solo se acepte texto de parte del usuario
+                                string regexApaterno = @"^([^0-9]+)*$";
+                                Match RegexApaterno = Regex.Match(inputCorreccionApaterno, regexApaterno);
+                                bool IsValidApaterno = RegexApaterno.Success;
+                                bool IsEmptyApaterno = string.IsNullOrWhiteSpace(inputCorreccionApaterno);
+
+                                if (IsValidApaterno && !IsEmptyApaterno)
+                                {
+                                    string correccionApaterno = "Apellido Paterno: " + inputCorreccionApaterno;
+                                    foreach (var empleados in tiendaRepository.usuarios)
+                                    {
+                                        if (tiendaRepository.usuarios.IndexOf(empleados) == confirmacionId)
+                                        {
+                                            empleados[1] = correccionApaterno;
+                                            Console.WriteLine(empleados[1]);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    throw new InvalidDataException();
+                                }
+                                break;
+                            case 3:
+
+                                //Solicita al usuario la corrección del apellido materno
+                                Console.WriteLine("Ingrese el nuevo apellido materno del empleado: ");
+                                string inputCorreccionAmaterno = Console.ReadLine();
+
+                                //Patrón para validad que solo se acepte texto de parte del usuario
+                                string regexAmaterno = @"^([^0-9]+)*$";
+                                Match RegexAmaterno = Regex.Match(inputCorreccionAmaterno, regexAmaterno);
+                                bool IsValidAmaterno = RegexAmaterno.Success;
+                                bool IsEmptyAmaterno = string.IsNullOrWhiteSpace(inputCorreccionAmaterno);
+
+                                if (IsValidAmaterno && !IsEmptyAmaterno)
+                                {
+                                    string correccionAmaterno = "Apellido Paterno: " + inputCorreccionAmaterno;
+
+                                    foreach (var empleados in tiendaRepository.usuarios)
+                                    {
+                                        if (tiendaRepository.usuarios.IndexOf(empleados) == confirmacionId)
+                                        {
+                                            empleados[2] = correccionAmaterno;
+                                            Console.WriteLine(empleados[2]);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    throw new InvalidDataException();
+                                }
+                                break;
+                            case 4:
+
+                                //Solicita al usuario el ingreso de un correo
+                                Console.WriteLine("Ingrese el nuevo correo del empleado: ");
+                                string inputCorreccionCorreo = Console.ReadLine();
+
+                                //Patrón que permite el ingreso de un correo válido
+                                string regexCorreo = @"[\.a-zA-Z0-9.-_]+[@a-zA-Z]+[\.a-z]";
+                                Match ingresoCorreo = Regex.Match(inputCorreccionCorreo, regexCorreo);
+                                bool IsValidCorreo = ingresoCorreo.Success;
+                                bool IsEmptyCorreo = string.IsNullOrWhiteSpace(inputCorreccionCorreo);
+
+                                if (IsValidCorreo && !IsEmptyCorreo)
+                                {
+                                    string correccionCorreo = "Correo: " + inputCorreccionCorreo;
+                                    foreach (var empleados in tiendaRepository.usuarios)
+                                    {
+                                        if (tiendaRepository.usuarios.IndexOf(empleados) == confirmacionId)
+                                        {
+                                            empleados[3] = correccionCorreo;
+                                            Console.WriteLine(empleados[3]);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    throw new InvalidDataException();
+                                }
+                                break;
+                            case 5:
+
+                                //Solicita al usuario el nuevo password
+                                Console.WriteLine("Ingrese el nuevo password del empleado: ");
+                                string inputCorreccionPassword = Console.ReadLine();
+
+                                //El nuevo password también debe cumplir con las reglas planteadas anteriormente
+                                string regexPassword = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.-_$%&#!¡¿?+*])[A-Za-z\d@.-_$%&#!¡¿?+*]{8,12}$";
+                                Match ingresoPassword = Regex.Match(inputCorreccionPassword, regexPassword);
+                                bool IsValidNP = ingresoPassword.Success;
+                                bool IsEmptyNp = string.IsNullOrWhiteSpace(inputCorreccionPassword);
+
+                                if (IsValidNP && !IsEmptyNp)
+                                {
+                                    string correccionPassword = "Password: " + inputCorreccionPassword;
+
+                                    foreach (var empleados in tiendaRepository.usuarios)
+                                    {
+                                        if (tiendaRepository.usuarios.IndexOf(empleados) == confirmacionId)
+                                        {
+                                            empleados[4] = correccionPassword;
+                                            Console.WriteLine(empleados[4]);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    throw new InvalidDataException();
+                                }
+                                break;
+                            case 6:
+
+                                //Le informa al usuario las opciones disponibles para actualizar el tipo de empleado
+                                Console.WriteLine("Sección para actualizar los datos del empleado," +
+                                    "recuerde que los roles disponibles son:" +
+                                    "\nCajero" +
+                                    "\nGerente" +
+                                    "\nOutsourcing" +
+                                    "\nDemostrador" +
+                                    "\nVendedor" +
+                                    "\nAsesor");
+
+                                //Recibe los datos de parte del usuario
+                                Console.WriteLine("Ingrese el nuevo rol empleado: ");
+                                string inputCorreccionTipoEmpleado = Console.ReadLine();
+
+                                //Patrón para validad que solo se acepte texto de parte del usuario
+                                string regexEmpleado = @"^([^0-9]+)*$";
+                                Match ingresoEmpleado = Regex.Match(inputCorreccionTipoEmpleado, regexEmpleado);
+                                bool IsValidEmpleado = ingresoEmpleado.Success;
+                                bool IsEmptyEmpleado = string.IsNullOrWhiteSpace(inputCorreccionTipoEmpleado);
+
+                                if (IsValidEmpleado && !IsEmptyEmpleado)
+                                {
+                                    string correccionTipoEmpleado = "Tipo de empleado: " + inputCorreccionTipoEmpleado;
+                                    foreach (var empleados in tiendaRepository.usuarios)
+                                    {
+                                        if (tiendaRepository.usuarios.IndexOf(empleados) == confirmacionId)
+                                        {
+                                            empleados[5] = correccionTipoEmpleado;
+                                            Console.WriteLine(empleados[5]);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    throw new InvalidDataException();
+                                }
+
+                                
+                                break;
+                            case 7:
+
+                                //Le informa al usuario las opciones disponibles para actualizar el tipo de empleado
+                                Console.WriteLine("Sección para actualizar la sucursal del empleado," +
+                                    "recuerde que los roles disponibles son:" +
+                                    "\nCoyoacán" +
+                                    "\nCopilco" +
+                                    "\nTaxqueña" +
+                                    "\nPerisur" +
+                                    "\nPotrero" +
+                                    "\nAzcapotzalco");
+
+                                //Recibe la información del usuario 
+                                Console.WriteLine("Ingrese la nueva sucursal a la que será asignado el empelado: ");
+                                string inputCorreccionSucursal = Console.ReadLine();
+                                string correccionSucursal = "Sucursal: " + inputCorreccionSucursal;
+
+                                //Patrón para validad que solo se acepte texto de parte del usuario
+                                string regexSucursal = @"^([^0-9]+)*$";
+                                Match ingresoSucursal = Regex.Match(inputCorreccionSucursal, regexSucursal);
+                                bool IsValidSucursal = ingresoSucursal.Success;
+                                bool IsEmptySucursal = string.IsNullOrWhiteSpace(inputCorreccionSucursal);
+
+                                if (IsValidSucursal && !IsEmptySucursal)
+                                {
+                                    foreach (var empleados in tiendaRepository.usuarios)
+                                    {
+                                        if (tiendaRepository.usuarios.IndexOf(empleados) == confirmacionId)
+                                        {
+                                            empleados[6] = correccionSucursal;
+                                            Console.WriteLine(empleados[6]);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    throw new InvalidDataException();
+                                }
+                                
+                                break;
+                            case 8:
+
+                                //Le informa al usuario las opciones disponibles para actualizar el tipo de empleado
+                                Console.WriteLine("Sección para actualizar el turno del empleado," +
+                                    "recuerde que los roles disponibles son:" +
+                                    "\nMatutino" +
+                                    "\nVespertino" +
+                                    "\nNocturno");
+
+                                //Recive la información del usuario
+                                Console.WriteLine("Ingrese el nuevo turno del empelado: ");
+                                string inputCorreccionTurno = Console.ReadLine();
+                                string correccionTurno = "Turno: " + inputCorreccionTurno;
+
+                                //Patrón para validad que solo se acepte texto de parte del usuario
+                                string regexTurno = @"^([^0-9]+)*$";
+                                Match ingresoTurno = Regex.Match(inputCorreccionTurno, regexTurno);
+                                bool IsValidTurno = ingresoTurno.Success;
+                                bool IsEmptyTurno = string.IsNullOrWhiteSpace(inputCorreccionTurno);
+
+                                if (IsValidTurno && !IsEmptyTurno)
+                                {
+                                    foreach (var empleados in tiendaRepository.usuarios)
+                                    {
+                                        if (tiendaRepository.usuarios.IndexOf(empleados) == confirmacionId)
+                                        {
+                                            empleados[7] = correccionTurno;
+                                            Console.WriteLine(empleados[7]);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    throw new InvalidDataException();
+                                }
+                                
+                                break;
+                            default:                                
+                                AlertaOpcionInvalida();
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        AlertaOpcionInvalida();
+                        throw new InvalidDataException();
+                    }
                 }
             }
+            else
+            {
+                Console.WriteLine("Verifique la información del empleado");
+                throw new IndexOutOfRangeException();
+            }
+
         }
+        //Elimina a un empleado, toma como parámetros los apellidos del empleado
+        public void EliminarUsuario()
+        {
+            if (BuscarApellido())
+            {
+                //Valida que la información suministrada cumpla con la expresión regular planteada en secciones anteriores
+                Console.WriteLine("Confirme el ID del empleado para continuar con la operación: ");
+                string inputID = Console.ReadLine();
+                string patterSeleccion = @"^[0-9]{1,1}$";
+                Match RegexId = Regex.Match(inputID, patterSeleccion);
+                bool IsValidId = RegexId.Success;
+                bool IsEmptyId = string.IsNullOrEmpty(inputID);
+
+                if (IsValidId && !IsEmptyId)
+                {                    
+                    int confirmacionId = Convert.ToInt32(inputID);
+                    foreach (var empleados in tiendaRepository.usuarios)
+                    {
+                        if (tiendaRepository.usuarios.IndexOf(empleados) == confirmacionId)
+                        {
+                            tiendaRepository.usuarios.Remove(empleados);
+                            Console.WriteLine($"Se ha removido al usuario con el id {empleados[confirmacionId]}, se actualizará la base de datos");
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    AlertaOpcionInvalida();
+                }                
+            }
+            else
+            {
+                Console.WriteLine("Verifique los datos del usuario");
+            }
+            
+        }
+        //Solicita al usuario su correo y contraseña para iniciar sesión y comenzar a usar la app
         public bool ValidarUsuario()
         {
-
+            //Se inicializa el contador j para registrar resultados negativos sobre la iteración en la colección usuarios
             int j = 0;
+
+            //Solicita al usuario su correo electrónico para continuar con la ejecución del programa
             Console.WriteLine("Ingrese correo: ");
             string logCorreo = Console.ReadLine();
+
+            //Impide que el usuario ingrese un correo que no es válido
             string regexCorreo = @"[\.a-zA-Z0-9.-_]+[@a-zA-Z]+[\.a-z]";
             Match regexLogin = Regex.Match(logCorreo, regexCorreo);
             bool IsValidRegexdCorreo = regexLogin.Success;
             bool IsEmptyRegexCorreo = string.IsNullOrEmpty(logCorreo);
+
             if (IsValidRegexdCorreo && !IsEmptyRegexCorreo)
             {
 
+                //Busca el correo que suministró el usuario en la base de datos,
+                //si este existe en la base de datos se continua con la ejecución del programa               
                 string vCorreo = "Correo: " + logCorreo;
+                
+                //Solicita al usuario su contraseña para continuar con la sesión
                 Console.WriteLine("Ingrese contraseña: ");
                 string logContrasena = Console.ReadLine();
                 string vContrasena = "Password: " + logContrasena;
+
+                //Busca correo y contraseña en la base de datos
                 foreach (var empleado in tiendaRepository.usuarios)
                 {
                     bool IsValidCorreo = empleado.Contains(vCorreo);
                     bool IsValidContrasena = empleado.Contains(vContrasena);
+                    
                     if (IsValidCorreo && IsValidContrasena)
                     {
                         Console.Clear();
@@ -854,24 +1152,36 @@ namespace Tienda
                         Console.ForegroundColor = ConsoleColor.DarkGreen;
                         Console.WriteLine($"\n\nBienvenido {logCorreo}" +
                             $"\nPresione enter para continuar\n");
+
+                        //Almacena la información del usuario que inició sesión dentro de la variable 
+                        //SetRegistro
                         user.SetRegistroCambiosCorreo(logCorreo);
                         user.SetRegistroCambiosPassword(logContrasena);
                         Console.ForegroundColor = ConsoleColor.White;
                         DibujoInf();
+
+                        //Si la búsqueda tiene resultados positivos imprime la información en pantalla 
+                        // y devuelve un valor true
                         return true;
                     }
+                    //Cuenta los resultados negativos en una búsqueda
                     else if (!IsValidContrasena && !IsValidCorreo)
                     {
                         j++;
+
+                        //Si el contador es igual a la longitud de la colección de empleados
+                        //termina el ciclo
                         if (j == tiendaRepository.usuarios.Count)
                         {
                             return false;
                         }
+                        //de lo contrario continua con las iteraciones
                         else
                         {
                             continue;
                         }
                     }
+                    //si la búsqueda tiene resultados negativos retorna valores falsos
                 }
                 return false;
             }
@@ -881,6 +1191,7 @@ namespace Tienda
             }
 
         }
+        //Obtiene la información del usuario que ha iniciado sesión
         public string RegistroUsuario()
         {
             string registro = user.GetRegistroCambiosCorreo();
@@ -891,13 +1202,15 @@ namespace Tienda
             string registro = user.GetRegistroCambiosPassword();
             return registro;
         }
+        //Genera un documento.txt que tiene el correo del usuario que ha realizado los últimos cambios
+        //en el sistema
         public void ImprimeRegistros()
         {
-            //string fileName = $"Registros{DateTime.Now}";
             string path = string.Format(@"C:\Users\apacheco\source\repos\Tienda\Tienda\assets\Registros{0:yyyy-MM-dd_HH-mm-ss}.txt", DateTime.Now);
             string content = $"último cambio realizado por {RegistroUsuario()} {DateTime.Now}";
             File.WriteAllText(path, content);
         }
+        //Se emplea para informarle a un usuario que debe suministrar cierta información para poder realizar una operación
         public void ContextoSeleccion()
         {
             DibujoSup();
@@ -905,6 +1218,5 @@ namespace Tienda
             DibujoInf();
             Console.WriteLine("\n\nContraseña: ");
         }
-
     }
 }

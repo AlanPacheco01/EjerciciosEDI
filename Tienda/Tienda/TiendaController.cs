@@ -9,13 +9,19 @@ namespace Tienda
         TiendaService conexion = new TiendaService();
         TiendaModel user = new TiendaModel();
 
+        //public void Prueba()
+        //{
+        //    Console.WriteLine(conexion.BuscarApellido());
+
+        //}
+
         //Invoca los métodos necesarios para que el usuario pueda interactuar con el programa
         public void Interaccion()
         {
         //Si la contraseña es erronea reinicia el ciclo con la instrucción goto:
         //Se usa la etiqueta "PantallaInicial para reiniciar el ciclo"
         PantallaInicial:
-
+            
             //Le dice al usuario el propósito de la aplicación
             MensajeBienvenida();
 
