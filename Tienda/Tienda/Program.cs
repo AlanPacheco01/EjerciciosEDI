@@ -12,9 +12,16 @@ namespace Tienda
     {
         static void Main(string[] args)
         {
-           TiendaController tienda = new TiendaController();
+            //Aplicación diseñada para practicar
+            //--principios SOLID
+            //--POO
+            //--el uso de VS 2019/2022 y el framework .NET
+            //--operaciones Create, Read, Update, Delete básicas
+
+            Bienvenida mensajes = new Bienvenida();
+            TiendaController tienda = new TiendaController();
+            mensajes.DibujoSup();
             tienda.Interaccion();
-            
         }
     }
 }

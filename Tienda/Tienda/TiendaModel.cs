@@ -18,6 +18,29 @@ namespace Tienda
         private string sucursal;
         private string turno; //Matutino, Vespertino
 
+        //Variables para registrar los cambios realizados en el sistema por un usuario
+        private string _registroCambiosCorreo;
+        private string _registroCambiosPassword;
+
+        public string GetRegistroCambiosPassword()
+        {
+            return _registroCambiosPassword;
+        }
+
+        public void SetRegistroCambiosPassword(string _registroCambiosPassword)
+        {
+            this._registroCambiosPassword = _registroCambiosPassword;
+        }
+
+        public string GetRegistroCambiosCorreo()
+        {
+            return _registroCambiosCorreo;
+        }
+
+        public void SetRegistroCambiosCorreo(string _registroCambiosCorreo)
+        {
+            this._registroCambiosCorreo = _registroCambiosCorreo;
+        }
         
         public TiendaModel()
         {
