@@ -985,11 +985,6 @@ namespace Tienda
                 Console.WriteLine("Confirme el ID del empleado para continuar con la operación: ");
                 string inputID = Console.ReadLine();
 
-                string patterSeleccion = @"^[0-9]{1,1}$";
-                Match RegexId = Regex.Match(inputID, patterSeleccion);
-                bool IsValidId = RegexId.Success;
-                bool IsEmptyId = string.IsNullOrEmpty(inputID);
-
                 if (ValSeleccion(inputID))
                 {
                     int confirmacionId = Convert.ToInt32(inputID);
@@ -1024,13 +1019,7 @@ namespace Tienda
             Console.WriteLine("Ingrese correo: ");
             string logCorreo = Console.ReadLine();
 
-            //Impide que el usuario ingrese un correo que no es válido
-            string regexCorreo = @"[\.a-zA-Z0-9.-_]+[@a-zA-Z]+[\.a-z]";
-            Match regexLogin = Regex.Match(logCorreo, regexCorreo);
-            bool IsValidRegexdCorreo = regexLogin.Success;
-            bool IsEmptyRegexCorreo = string.IsNullOrEmpty(logCorreo);
-
-            if (IsValidRegexdCorreo && !IsEmptyRegexCorreo)
+            if (ValCorreo(logCorreo))
             {
 
                 //Busca el correo que suministró el usuario en la base de datos,

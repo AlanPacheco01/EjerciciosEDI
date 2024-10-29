@@ -9,19 +9,13 @@ namespace Tienda
         TiendaService conexion = new TiendaService();
         TiendaModel user = new TiendaModel();
 
-        //public void Prueba()
-        //{
-        //    Console.WriteLine(conexion.BuscarApellido());
-
-        //}
-
         //Invoca los métodos necesarios para que el usuario pueda interactuar con el programa
         public void Interaccion()
         {
         //Si la contraseña es erronea reinicia el ciclo con la instrucción goto:
         //Se usa la etiqueta "PantallaInicial para reiniciar el ciclo"
         PantallaInicial:
-            
+
             //Le dice al usuario el propósito de la aplicación
             MensajeBienvenida();
 
@@ -31,7 +25,7 @@ namespace Tienda
             //Le dice al usuario que debe ingresar usuario y contraseña
             Contexto();
             int seleccion;
-
+            bool cicloInicio;
             //Carga una pseudobase de datos que se usa para operaciones
             //Delete, Update y Read
             conexion.DatosPrueba();
@@ -47,7 +41,8 @@ namespace Tienda
 
             //Evalua si la información proporcionada es correcta
             if (isvalid)
-            {                
+            {
+                cicloInicio = true;
                 //le muestra al usuario las opciones disponibles con las que cuenta el programa
                 //Se usa un do-while para que el usuario pueda realizar múltiples operaciones al iniciar sesión
                 do
@@ -65,29 +60,15 @@ namespace Tienda
 
                     //Le da al usuario la facultad de selecionar la operación
                     Console.WriteLine("\n\nDigite su elección: ");
-                    string input = Console.ReadLine();
-
-                    //Restringe el ingreso de datos a solo números con el siguiente patrón
-                    string patterSeleccion = @"^[0-9]{1,1}$";
-
-                    //Se usa "System.Text.RegularExpressions" para comparar la regex con los datos de entrada 
-                    Match RegexSel = Regex.Match(input, patterSeleccion);
-
-                    //Se usa para obtener información del ensayo anterior
-                    bool IsValidSel = RegexSel.Success;
-
-                    //Se usa para verificar si no se dejan campos vacíos
-                    bool IsEmpty = string.IsNullOrEmpty(input);
-
-                    //Convierte la string suministrada en un valor int para continuar con el proceso
-                    // si el usuario digita 0 termina el programa
-
-                    seleccion = Convert.ToInt32(input);                   
+                    string input = Console.ReadLine();                    
 
                     //Si se cumplen los requisitos anteriores, el usuario puede acceder a las funcionalidades
                     //de la aplicación
-                    if (IsValidSel && !IsEmpty)
+                    if (ValSeleccion(input))
                     {
+                        //Convierte la string suministrada en un valor int para continuar con el proceso
+                        // si el usuario digita 0 termina el programa
+                        seleccion = Convert.ToInt32(input);
                         switch (seleccion)
                         {
                             case 1:
@@ -180,6 +161,7 @@ namespace Tienda
                             case 0:
                                 //Agradece al usuario por usar los servicios
                                 Agradecimiento();
+                                cicloInicio = false;
                                 break;
                             default:
                                 //Anuncia al usuario que la opción seleccionada no es válida
@@ -187,7 +169,11 @@ namespace Tienda
                                 break;
                         }
                     }
-                } while (seleccion != 0);
+                    else
+                    {
+                        AlertaOpcionInvalida();
+                    }
+                } while (cicloInicio);
             }
             else
             {
@@ -228,7 +214,7 @@ namespace Tienda
             Inicio:
                 //Le da al usuario la funcionalidad de esta sección
                 ContextoRegistroUsuario();
-                
+
                 //Permite al usuario continuar o terminar el programa
                 Console.WriteLine("\nDigite su opción: ");
                 string proceso = Console.ReadLine();
