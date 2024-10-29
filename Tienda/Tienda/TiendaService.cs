@@ -40,15 +40,10 @@ namespace Tienda
                 //Solicita el ingreso de datos por parte del usuario
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("Ingresa el nombre del empleado");
+
                 string ingresaTexto = Console.ReadLine();
 
-                //Patrón para validad que solo se acepte texto de parte del usuario
-                string regexTexto = @"^([^0-9]+)*$";
-                Match ingresoTrue = Regex.Match(ingresaTexto, regexTexto);
-                bool IsValidName = ingresoTrue.Success;
-                bool IsValidTexto = string.IsNullOrWhiteSpace(ingresaTexto);
-
-                if (IsValidName && !IsValidTexto)
+                if (ValText(ingresaTexto))
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
 
@@ -76,11 +71,8 @@ namespace Tienda
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("Ingresa el apellido paterno del empleado");
                 string ingresaTexto = Console.ReadLine();
-                string regexTexto = @"^([^0-9]+)*$";
-                Match ingresoTrue = Regex.Match(ingresaTexto, regexTexto);
-                bool IsValidFlname = ingresoTrue.Success;
-                bool IsEmptyFlname = string.IsNullOrWhiteSpace(ingresaTexto);
-                if (IsValidFlname && !IsEmptyFlname)
+
+                if (ValText(ingresaTexto))
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
                     user.SetApaterno(ingresaTexto);
@@ -105,11 +97,8 @@ namespace Tienda
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("Ingresa el apellido materno del empleado");
                 string ingresaTexto = Console.ReadLine();
-                string regexTexto = @"^([^0-9]+)*$";
-                Match ingresoTrue = Regex.Match(ingresaTexto, regexTexto);
-                bool IsValidSlname = ingresoTrue.Success;
-                bool IsEmptySlname = string.IsNullOrWhiteSpace(ingresaTexto);
-                if (IsValidSlname && !IsEmptySlname)
+
+                if (ValText(ingresaTexto))
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
                     user.SetAmaterno(ingresaTexto);
@@ -134,13 +123,7 @@ namespace Tienda
                 Console.WriteLine("Ingresa el correo del empleado");
                 string ingresaTexto = Console.ReadLine();
 
-                //Patrón que permite el ingreso de un correo válido
-                string regexCorreo = @"[\.a-zA-Z0-9.-_]+[@a-zA-Z]+[\.a-z]";
-                Match ingresoTrue = Regex.Match(ingresaTexto, regexCorreo);
-                bool IsValidEmail = ingresoTrue.Success;
-                bool IsEmptyEmail = string.IsNullOrWhiteSpace(ingresaTexto);
-
-                if (IsValidEmail && !IsEmptyEmail)
+                if (ValCorreo(ingresaTexto))
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
                     user.SetCorreo(ingresaTexto);
@@ -165,19 +148,7 @@ namespace Tienda
                 Console.WriteLine("Ingresa el password del empleado");
                 string ingresaTexto = Console.ReadLine();
 
-                //Patrón de Regex que sigue las siguientes reglas:
-                //Contar con al menos 1 Mayúscula
-                //Contar con al menos 1 Minúscula
-                //Contar con al menos 1 Dígito
-                //Contiene al menos 1 caracter especial
-                //Longitud mínima de 8 caracteres y máximo 12 
-
-                string regexPassword = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.-_$%&#!¡¿?+*])[A-Za-z\d@.-_$%&#!¡¿?+*]{8,12}$";
-                Match ingresoTrue = Regex.Match(ingresaTexto, regexPassword);
-                bool IsValidPassword = ingresoTrue.Success;
-                bool IsEmptyPassword = string.IsNullOrWhiteSpace(ingresaTexto);
-
-                if (IsValidPassword && !IsEmptyPassword)
+                if (ValPassword(ingresaTexto))
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
                     user.SetPassword(ingresaTexto);
@@ -211,13 +182,10 @@ namespace Tienda
                 //Valida que el usuario solo ingrese numeros
                 Console.WriteLine("\n\nDigite su elección: ");
                 string input = Console.ReadLine();
-                string patterSeleccion = @"^[0-9]{1,1}$";
-                Match RegexSel = Regex.Match(input, patterSeleccion);
-                bool IsValidSel = RegexSel.Success;
-                bool IsEmpty = string.IsNullOrEmpty(input);
+
                 seleccionEmpleado = true;
 
-                if (IsValidSel && !IsEmpty)
+                if (ValSeleccion(input))
                 {
                     //Si el dato es válido se convierte de string a input y se continúa con la selección
                     int seleccionTipoEmpleado = Convert.ToInt32(input);
@@ -285,8 +253,8 @@ namespace Tienda
                 {
                     //Si los datos son erroneos se lanza una alerta que menciona que los datos son inválidos
                     //También lanza una excepción de datos inválidos
-                    AlertaDatosErroneos();
-                    throw new InvalidDataException();
+                    AlertaOpcionInvalida();
+                    //throw new InvalidDataException();
                 }
             } while (seleccionEmpleado);
 
@@ -308,12 +276,9 @@ namespace Tienda
 
                 Console.WriteLine("\n\nDigite su elección: ");
                 string inputSucursal = Console.ReadLine();
-                string patterSucursal = @"^[0-9]{1,1}$";
-                Match RegexSucursal = Regex.Match(inputSucursal, patterSucursal);
-                bool IsValidSucursal = RegexSucursal.Success;
-                bool IsEmptySucursal = string.IsNullOrEmpty(inputSucursal);
                 cicloSucursal = true;
-                if (IsValidSucursal && !IsEmptySucursal)
+
+                if (ValSeleccion(inputSucursal))
                 {
                     int seleccionSucursal = Convert.ToInt32(inputSucursal);
                     switch (seleccionSucursal)
@@ -373,8 +338,8 @@ namespace Tienda
                 }
                 else
                 {
-                    AlertaDatosErroneos();
-                    throw new InvalidDataException();
+                    AlertaOpcionInvalida();
+                    //throw new InvalidDataException();
                 }
 
             } while (cicloSucursal);
@@ -393,13 +358,10 @@ namespace Tienda
 
                 Console.WriteLine("\n\nDigite su elección: ");
                 string inputTurno = Console.ReadLine();
-                string patterTurno = @"^[0-9]{1,1}$";
-                Match RegexTurno = Regex.Match(inputTurno, patterTurno);
-                bool IsValidTurno = RegexTurno.Success;
-                bool IsEmptyTurno = string.IsNullOrEmpty(inputTurno);
+
                 seleccionTurno = true;
 
-                if (IsValidTurno && !IsEmptyTurno)
+                if (ValSeleccion(inputTurno))
                 {
                     int selTurno = Convert.ToInt32(inputTurno);
                     switch (selTurno)
@@ -438,7 +400,7 @@ namespace Tienda
                 else
                 {
                     AlertaOpcionInvalida();
-                    throw new InvalidDataException();
+                    //throw new InvalidDataException();
                 }
             } while (seleccionTurno);
 
@@ -513,30 +475,22 @@ namespace Tienda
             Console.WriteLine("Ingrese el apellido paterno del empleado");
             string aPaterno = Console.ReadLine();
             string busquedaPaterno = "Apellido Paterno: " + aPaterno;
-            bool aPaternoEmpty = string.IsNullOrEmpty(aPaterno);
+
             Console.WriteLine("Ingrese el apellido Materno del empleado");
             string aMaterno = Console.ReadLine();
             string busquedaMaterno = "Apellido Materno: " + aMaterno;
 
             //Patrón para validad que solo se acepte texto de parte del usuario
-            //Valida el Apellido paterno
-            string regexTexto = @"^([^0-9]+)*$";
-            Match ingresoTrue = Regex.Match(aPaterno, regexTexto);
-            bool IsValidPaterno = ingresoTrue.Success;
-            bool IsEmptyPaterno = string.IsNullOrWhiteSpace(aPaterno);
-
-            //Valida el apellido paterno         
-            Match ingresoMaterno = Regex.Match(aMaterno, regexTexto);
-            bool IsValidMaterno = ingresoTrue.Success;
-            bool IsEmptyMaterno = string.IsNullOrWhiteSpace(aMaterno);
+            bool evPaterno = ValText(aPaterno);
+            bool evMaterno = ValText(aMaterno);
 
             //encapsula a la colección empleados en una variable más compacta
             var coleccionEmpleados = tiendaRepository.usuarios;
             bool bPaterno;
             bool bMaterno;
             int j = 0;
-
-            if (IsValidPaterno && IsValidMaterno && !IsEmptyPaterno && !IsEmptyMaterno)
+            //IsValidPaterno && IsValidMaterno && !IsEmptyPaterno && !IsEmptyMaterno
+            if (evPaterno && evMaterno)
             {
                 foreach (var empleado in coleccionEmpleados)
                 {
@@ -583,12 +537,8 @@ namespace Tienda
 
             //Restringe el ingreso de datos para evitar el ingreso de datos inválidos
             string input = Console.ReadLine();
-            bool inputEmpty = string.IsNullOrEmpty(input);
-            string pattern = @"^[0-9]${1,1}";
-            Match inSel = Regex.Match(input, pattern);
-            bool inSelTrue = inSel.Success;
 
-            if (inSelTrue && !inputEmpty)
+            if (ValSeleccion(input))
             {
                 int seleccion = Convert.ToInt32(input);
 
@@ -727,7 +677,7 @@ namespace Tienda
             else
             {
                 AlertaOpcionInvalida();
-                throw new InvalidDataException();
+                //throw new InvalidDataException();
             }
         }
         //Método para actualizar los datos de un empleado, toma como parámetros los apellidos del empelado
@@ -741,13 +691,9 @@ namespace Tienda
                 //Solicita la confirmación del Id para que el método foreach pueda iterar sobre la colección de empleados                
                 Console.WriteLine("Confirme el ID del empleado para continuar con la operación: ");
                 string inputID = Console.ReadLine();
-                string patterSeleccion = @"^[0-9]{1,1}$";
-                Match RegexId = Regex.Match(inputID, patterSeleccion);
-                bool IsValidId = RegexId.Success;
-                bool IsEmptyId = string.IsNullOrEmpty(inputID);
 
                 //Cuando se confirma el Id del empleado se procede con la actualización de los datos
-                if (IsValidId && !IsEmptyId)
+                if (ValSeleccion(inputID))
                 {
                     //Convierte la opción ingresada a un int para acceder a las opciones
                     int confirmacionId = Convert.ToInt32(inputID);
@@ -766,12 +712,9 @@ namespace Tienda
                     //valida que la selección sea un entero, con un solo dígito y se encuentre dentro de las opciones 
                     //mediante un switch-case
                     string inputSeleccion = Console.ReadLine();
-                    Match RegexSeleccion = Regex.Match(inputSeleccion, patterSeleccion);
-                    bool IsEmptySeleccion = string.IsNullOrEmpty(inputSeleccion);
-                    bool IsValidSeleccion = RegexSeleccion.Success;
 
                     //Si es válido se procede con las operaciones
-                    if (IsValidSeleccion && !IsEmptySeleccion)
+                    if (ValSeleccion(inputSeleccion))
                     {
                         int seleccion = Convert.ToInt32(inputSeleccion);
 
@@ -785,14 +728,8 @@ namespace Tienda
                                 Console.WriteLine("Ingrese el nuevo nombre del empleado: ");
                                 string inputCorreccionNombre = Console.ReadLine();
 
-                                //Patrón para validad que solo se acepte texto de parte del usuario
-                                string regexNombre = @"^([^0-9]+)*$";
-                                Match ingresoTrue = Regex.Match(inputCorreccionNombre, regexNombre);
-                                bool IsValidName = ingresoTrue.Success;
-                                bool IsEmptyName = string.IsNullOrWhiteSpace(inputCorreccionNombre);
-
                                 //Si los datos son válidos y no se tienen campos vacío se procede con la operación
-                                if (IsValidName && !IsEmptyName)
+                                if (ValText(inputCorreccionNombre))
                                 {
                                     //si el patrón es válido se concatena con el parámetro nombre, de modo que sirva como
                                     //referencia para iterar sobre el array
@@ -816,7 +753,8 @@ namespace Tienda
                                 }
                                 else
                                 {
-                                    throw new InvalidDataException();
+                                    AlertaOpcionInvalida();
+                                    //throw new InvalidDataException();
                                 }
                                 break;
                             case 2:
@@ -825,13 +763,7 @@ namespace Tienda
                                 Console.WriteLine("Ingrese el nuevo apellido paterno del empleado: ");
                                 string inputCorreccionApaterno = Console.ReadLine();
 
-                                //Patrón para validad que solo se acepte texto de parte del usuario
-                                string regexApaterno = @"^([^0-9]+)*$";
-                                Match RegexApaterno = Regex.Match(inputCorreccionApaterno, regexApaterno);
-                                bool IsValidApaterno = RegexApaterno.Success;
-                                bool IsEmptyApaterno = string.IsNullOrWhiteSpace(inputCorreccionApaterno);
-
-                                if (IsValidApaterno && !IsEmptyApaterno)
+                                if (ValText(inputCorreccionApaterno))
                                 {
                                     string correccionApaterno = "Apellido Paterno: " + inputCorreccionApaterno;
                                     foreach (var empleados in tiendaRepository.usuarios)
@@ -845,7 +777,8 @@ namespace Tienda
                                 }
                                 else
                                 {
-                                    throw new InvalidDataException();
+                                    AlertaOpcionInvalida();
+                                    //throw new InvalidDataException();
                                 }
                                 break;
                             case 3:
@@ -854,13 +787,7 @@ namespace Tienda
                                 Console.WriteLine("Ingrese el nuevo apellido materno del empleado: ");
                                 string inputCorreccionAmaterno = Console.ReadLine();
 
-                                //Patrón para validad que solo se acepte texto de parte del usuario
-                                string regexAmaterno = @"^([^0-9]+)*$";
-                                Match RegexAmaterno = Regex.Match(inputCorreccionAmaterno, regexAmaterno);
-                                bool IsValidAmaterno = RegexAmaterno.Success;
-                                bool IsEmptyAmaterno = string.IsNullOrWhiteSpace(inputCorreccionAmaterno);
-
-                                if (IsValidAmaterno && !IsEmptyAmaterno)
+                                if (ValText(inputCorreccionAmaterno))
                                 {
                                     string correccionAmaterno = "Apellido Paterno: " + inputCorreccionAmaterno;
 
@@ -875,7 +802,8 @@ namespace Tienda
                                 }
                                 else
                                 {
-                                    throw new InvalidDataException();
+                                    AlertaOpcionInvalida();
+                                    //throw new InvalidDataException();
                                 }
                                 break;
                             case 4:
@@ -884,13 +812,7 @@ namespace Tienda
                                 Console.WriteLine("Ingrese el nuevo correo del empleado: ");
                                 string inputCorreccionCorreo = Console.ReadLine();
 
-                                //Patrón que permite el ingreso de un correo válido
-                                string regexCorreo = @"[\.a-zA-Z0-9.-_]+[@a-zA-Z]+[\.a-z]";
-                                Match ingresoCorreo = Regex.Match(inputCorreccionCorreo, regexCorreo);
-                                bool IsValidCorreo = ingresoCorreo.Success;
-                                bool IsEmptyCorreo = string.IsNullOrWhiteSpace(inputCorreccionCorreo);
-
-                                if (IsValidCorreo && !IsEmptyCorreo)
+                                if (ValCorreo(inputCorreccionCorreo))
                                 {
                                     string correccionCorreo = "Correo: " + inputCorreccionCorreo;
                                     foreach (var empleados in tiendaRepository.usuarios)
@@ -904,7 +826,8 @@ namespace Tienda
                                 }
                                 else
                                 {
-                                    throw new InvalidDataException();
+                                    AlertaOpcionInvalida();
+                                    // throw new InvalidDataException();
                                 }
                                 break;
                             case 5:
@@ -913,13 +836,7 @@ namespace Tienda
                                 Console.WriteLine("Ingrese el nuevo password del empleado: ");
                                 string inputCorreccionPassword = Console.ReadLine();
 
-                                //El nuevo password también debe cumplir con las reglas planteadas anteriormente
-                                string regexPassword = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.-_$%&#!¡¿?+*])[A-Za-z\d@.-_$%&#!¡¿?+*]{8,12}$";
-                                Match ingresoPassword = Regex.Match(inputCorreccionPassword, regexPassword);
-                                bool IsValidNP = ingresoPassword.Success;
-                                bool IsEmptyNp = string.IsNullOrWhiteSpace(inputCorreccionPassword);
-
-                                if (IsValidNP && !IsEmptyNp)
+                                if (ValPassword(inputCorreccionPassword))
                                 {
                                     string correccionPassword = "Password: " + inputCorreccionPassword;
 
@@ -933,8 +850,9 @@ namespace Tienda
                                     }
                                 }
                                 else
-                                {
-                                    throw new InvalidDataException();
+                                {                                    
+                                    AlertaOpcionInvalida();
+                                    //throw new InvalidDataException();
                                 }
                                 break;
                             case 6:
@@ -953,13 +871,7 @@ namespace Tienda
                                 Console.WriteLine("Ingrese el nuevo rol empleado: ");
                                 string inputCorreccionTipoEmpleado = Console.ReadLine();
 
-                                //Patrón para validad que solo se acepte texto de parte del usuario
-                                string regexEmpleado = @"^([^0-9]+)*$";
-                                Match ingresoEmpleado = Regex.Match(inputCorreccionTipoEmpleado, regexEmpleado);
-                                bool IsValidEmpleado = ingresoEmpleado.Success;
-                                bool IsEmptyEmpleado = string.IsNullOrWhiteSpace(inputCorreccionTipoEmpleado);
-
-                                if (IsValidEmpleado && !IsEmptyEmpleado)
+                                if (ValText(inputCorreccionTipoEmpleado))
                                 {
                                     string correccionTipoEmpleado = "Tipo de empleado: " + inputCorreccionTipoEmpleado;
                                     foreach (var empleados in tiendaRepository.usuarios)
@@ -973,10 +885,11 @@ namespace Tienda
                                 }
                                 else
                                 {
-                                    throw new InvalidDataException();
+                                    AlertaOpcionInvalida();
+                                    //throw new InvalidDataException();
                                 }
 
-                                
+
                                 break;
                             case 7:
 
@@ -995,13 +908,7 @@ namespace Tienda
                                 string inputCorreccionSucursal = Console.ReadLine();
                                 string correccionSucursal = "Sucursal: " + inputCorreccionSucursal;
 
-                                //Patrón para validad que solo se acepte texto de parte del usuario
-                                string regexSucursal = @"^([^0-9]+)*$";
-                                Match ingresoSucursal = Regex.Match(inputCorreccionSucursal, regexSucursal);
-                                bool IsValidSucursal = ingresoSucursal.Success;
-                                bool IsEmptySucursal = string.IsNullOrWhiteSpace(inputCorreccionSucursal);
-
-                                if (IsValidSucursal && !IsEmptySucursal)
+                                if (ValText(inputCorreccionSucursal))
                                 {
                                     foreach (var empleados in tiendaRepository.usuarios)
                                     {
@@ -1014,9 +921,10 @@ namespace Tienda
                                 }
                                 else
                                 {
-                                    throw new InvalidDataException();
+                                    AlertaOpcionInvalida();
+                                    //throw new InvalidDataException();
                                 }
-                                
+
                                 break;
                             case 8:
 
@@ -1032,13 +940,7 @@ namespace Tienda
                                 string inputCorreccionTurno = Console.ReadLine();
                                 string correccionTurno = "Turno: " + inputCorreccionTurno;
 
-                                //Patrón para validad que solo se acepte texto de parte del usuario
-                                string regexTurno = @"^([^0-9]+)*$";
-                                Match ingresoTurno = Regex.Match(inputCorreccionTurno, regexTurno);
-                                bool IsValidTurno = ingresoTurno.Success;
-                                bool IsEmptyTurno = string.IsNullOrWhiteSpace(inputCorreccionTurno);
-
-                                if (IsValidTurno && !IsEmptyTurno)
+                                if (ValText(inputCorreccionTurno))
                                 {
                                     foreach (var empleados in tiendaRepository.usuarios)
                                     {
@@ -1053,9 +955,9 @@ namespace Tienda
                                 {
                                     throw new InvalidDataException();
                                 }
-                                
+
                                 break;
-                            default:                                
+                            default:
                                 AlertaOpcionInvalida();
                                 break;
                         }
@@ -1063,7 +965,7 @@ namespace Tienda
                     else
                     {
                         AlertaOpcionInvalida();
-                        throw new InvalidDataException();
+                        //throw new InvalidDataException();
                     }
                 }
             }
@@ -1082,13 +984,14 @@ namespace Tienda
                 //Valida que la información suministrada cumpla con la expresión regular planteada en secciones anteriores
                 Console.WriteLine("Confirme el ID del empleado para continuar con la operación: ");
                 string inputID = Console.ReadLine();
+
                 string patterSeleccion = @"^[0-9]{1,1}$";
                 Match RegexId = Regex.Match(inputID, patterSeleccion);
                 bool IsValidId = RegexId.Success;
                 bool IsEmptyId = string.IsNullOrEmpty(inputID);
 
-                if (IsValidId && !IsEmptyId)
-                {                    
+                if (ValSeleccion(inputID))
+                {
                     int confirmacionId = Convert.ToInt32(inputID);
                     foreach (var empleados in tiendaRepository.usuarios)
                     {
@@ -1103,13 +1006,13 @@ namespace Tienda
                 else
                 {
                     AlertaOpcionInvalida();
-                }                
+                }
             }
             else
             {
                 Console.WriteLine("Verifique los datos del usuario");
             }
-            
+
         }
         //Solicita al usuario su correo y contraseña para iniciar sesión y comenzar a usar la app
         public bool ValidarUsuario()
@@ -1133,7 +1036,7 @@ namespace Tienda
                 //Busca el correo que suministró el usuario en la base de datos,
                 //si este existe en la base de datos se continua con la ejecución del programa               
                 string vCorreo = "Correo: " + logCorreo;
-                
+
                 //Solicita al usuario su contraseña para continuar con la sesión
                 Console.WriteLine("Ingrese contraseña: ");
                 string logContrasena = Console.ReadLine();
@@ -1144,7 +1047,7 @@ namespace Tienda
                 {
                     bool IsValidCorreo = empleado.Contains(vCorreo);
                     bool IsValidContrasena = empleado.Contains(vContrasena);
-                    
+
                     if (IsValidCorreo && IsValidContrasena)
                     {
                         Console.Clear();

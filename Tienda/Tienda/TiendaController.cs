@@ -47,7 +47,7 @@ namespace Tienda
 
             //Evalua si la información proporcionada es correcta
             if (isvalid)
-            {
+            {                
                 //le muestra al usuario las opciones disponibles con las que cuenta el programa
                 //Se usa un do-while para que el usuario pueda realizar múltiples operaciones al iniciar sesión
                 do

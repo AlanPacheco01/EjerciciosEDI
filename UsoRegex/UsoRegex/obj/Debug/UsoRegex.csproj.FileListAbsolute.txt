@@ -1,0 +1,7 @@
+C:\Users\apacheco\source\repos\UsoRegex\UsoRegex\bin\Debug\UsoRegex.exe.config
+C:\Users\apacheco\source\repos\UsoRegex\UsoRegex\bin\Debug\UsoRegex.exe
+C:\Users\apacheco\source\repos\UsoRegex\UsoRegex\bin\Debug\UsoRegex.pdb
+C:\Users\apacheco\source\repos\UsoRegex\UsoRegex\obj\Debug\UsoRegex.csproj.AssemblyReference.cache
+C:\Users\apacheco\source\repos\UsoRegex\UsoRegex\obj\Debug\UsoRegex.csproj.CoreCompileInputs.cache
+C:\Users\apacheco\source\repos\UsoRegex\UsoRegex\obj\Debug\UsoRegex.exe
+C:\Users\apacheco\source\repos\UsoRegex\UsoRegex\obj\Debug\UsoRegex.pdb

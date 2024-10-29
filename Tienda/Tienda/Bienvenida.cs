@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Text.RegularExpressions;
 
 namespace Tienda
 {
@@ -118,5 +118,52 @@ namespace Tienda
             Console.ForegroundColor = ConsoleColor.White;
             DibujoInf();
         }
+        public bool ValText(string ingresaTexto)
+        {
+            //Patrón para validad que solo se acepte texto de parte del usuario
+            string regexTexto = @"^([^0-9]+)*$";
+            Match ingresoTrue = Regex.Match(ingresaTexto, regexTexto);
+            bool IsValidName = ingresoTrue.Success;
+            bool IsValidTexto = string.IsNullOrWhiteSpace(ingresaTexto);
+            bool comparativo = IsValidName && !IsValidTexto;
+            return comparativo;
+        }
+        public bool ValCorreo(string ingresaTexto)
+        {
+            //Patrón para validad que solo se acepte texto de parte del usuario
+            string regexCorreo = @"^[a-zA-Z0-9._-]+@[a-zA-Z.-]+\.[a-zA-Z]{2,}$";
+            Match ingresoTrue = Regex.Match(ingresaTexto, regexCorreo);
+            bool IsValidEmail = ingresoTrue.Success;
+            bool IsEmptyEmail = string.IsNullOrWhiteSpace(ingresaTexto);
+            bool comparativo = IsValidEmail && !IsEmptyEmail;
+            return comparativo;
+        }
+        public bool ValPassword(string ingresaTexto)
+        {
+
+            //Patrón de Regex que sigue las siguientes reglas:
+            //Contar con al menos 1 Mayúscula
+            //Contar con al menos 1 Minúscula
+            //Contar con al menos 1 Dígito
+            //Contiene al menos 1 caracter especial
+            //Longitud mínima de 8 caracteres y máximo 12 
+
+            string regexPassword = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.-_$%&#!¡¿?+*])[A-Za-z\d@.-_$%&#!¡¿?+*]{8,12}$";
+            Match ingresoTrue = Regex.Match(ingresaTexto, regexPassword);
+            bool IsValidPassword = ingresoTrue.Success;
+            bool IsEmptyPassword = string.IsNullOrWhiteSpace(ingresaTexto);
+            bool comparativo = IsValidPassword && !IsEmptyPassword;
+            return comparativo;
+        }
+        public bool ValSeleccion(string input)
+        {
+            string patterSeleccion = @"^[0-9]{1,1}$";
+            Match RegexSel = Regex.Match(input, patterSeleccion);
+            bool IsValidSel = RegexSel.Success;
+            bool IsEmptySel = string.IsNullOrEmpty(input);
+            bool comparativo = IsValidSel && !IsEmptySel;
+            return comparativo;
+        }
+
     }
 }

@@ -1,0 +1,69 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\apacheco\\source\\repos\\Sobrecarga\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{314933C7-6A43-46D8-82D8-1390EF273014}|Sobrecarga.csproj|c:\\users\\apacheco\\source\\repos\\sobrecarga\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{314933C7-6A43-46D8-82D8-1390EF273014}|Sobrecarga.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{314933C7-6A43-46D8-82D8-1390EF273014}|Sobrecarga.csproj|c:\\users\\apacheco\\source\\repos\\sobrecarga\\maestromain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{314933C7-6A43-46D8-82D8-1390EF273014}|Sobrecarga.csproj|solutionrelative:maestromain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{314933C7-6A43-46D8-82D8-1390EF273014}|Sobrecarga.csproj|c:\\users\\apacheco\\source\\repos\\sobrecarga\\readme.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
+      "RelativeMoniker": "D:0:0:{314933C7-6A43-46D8-82D8-1390EF273014}|Sobrecarga.csproj|solutionrelative:readme.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MaestroMain.cs",
+              "DocumentMoniker": "C:\\Users\\apacheco\\source\\repos\\Sobrecarga\\MaestroMain.cs",
+              "RelativeDocumentMoniker": "MaestroMain.cs",
+              "ToolTip": "C:\\Users\\apacheco\\source\\repos\\Sobrecarga\\MaestroMain.cs",
+              "RelativeToolTip": "MaestroMain.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-14T21:51:05.381Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "README.MD",
+              "DocumentMoniker": "C:\\Users\\apacheco\\source\\repos\\Sobrecarga\\README.MD",
+              "RelativeDocumentMoniker": "README.MD",
+              "ToolTip": "C:\\Users\\apacheco\\source\\repos\\Sobrecarga\\README.MD",
+              "RelativeToolTip": "README.MD",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2024-10-14T21:33:23.117Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\apacheco\\source\\repos\\Sobrecarga\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\apacheco\\source\\repos\\Sobrecarga\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABSAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-14T20:46:25.204Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

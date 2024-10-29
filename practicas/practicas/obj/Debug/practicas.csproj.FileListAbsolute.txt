@@ -1,0 +1,7 @@
+C:\Users\apacheco\source\repos\practicas\practicas\bin\Debug\practicas.exe.config
+C:\Users\apacheco\source\repos\practicas\practicas\bin\Debug\practicas.exe
+C:\Users\apacheco\source\repos\practicas\practicas\bin\Debug\practicas.pdb
+C:\Users\apacheco\source\repos\practicas\practicas\obj\Debug\practicas.csproj.AssemblyReference.cache
+C:\Users\apacheco\source\repos\practicas\practicas\obj\Debug\practicas.csproj.CoreCompileInputs.cache
+C:\Users\apacheco\source\repos\practicas\practicas\obj\Debug\practicas.exe
+C:\Users\apacheco\source\repos\practicas\practicas\obj\Debug\practicas.pdb

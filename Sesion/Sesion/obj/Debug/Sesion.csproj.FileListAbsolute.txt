@@ -1,0 +1,7 @@
+C:\Users\apacheco\source\repos\Sesion\Sesion\bin\Debug\Sesion.exe.config
+C:\Users\apacheco\source\repos\Sesion\Sesion\bin\Debug\Sesion.exe
+C:\Users\apacheco\source\repos\Sesion\Sesion\bin\Debug\Sesion.pdb
+C:\Users\apacheco\source\repos\Sesion\Sesion\obj\Debug\Sesion.csproj.AssemblyReference.cache
+C:\Users\apacheco\source\repos\Sesion\Sesion\obj\Debug\Sesion.csproj.CoreCompileInputs.cache
+C:\Users\apacheco\source\repos\Sesion\Sesion\obj\Debug\Sesion.exe
+C:\Users\apacheco\source\repos\Sesion\Sesion\obj\Debug\Sesion.pdb

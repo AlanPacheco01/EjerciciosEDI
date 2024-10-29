@@ -1,0 +1,14 @@
+C:\Users\apacheco\source\repos\Modulo1\bin\Debug\net8.0\Modulo1.exe
+C:\Users\apacheco\source\repos\Modulo1\bin\Debug\net8.0\Modulo1.deps.json
+C:\Users\apacheco\source\repos\Modulo1\bin\Debug\net8.0\Modulo1.runtimeconfig.json
+C:\Users\apacheco\source\repos\Modulo1\bin\Debug\net8.0\Modulo1.dll
+C:\Users\apacheco\source\repos\Modulo1\bin\Debug\net8.0\Modulo1.pdb
+C:\Users\apacheco\source\repos\Modulo1\obj\Debug\net8.0\Modulo1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\apacheco\source\repos\Modulo1\obj\Debug\net8.0\Modulo1.AssemblyInfoInputs.cache
+C:\Users\apacheco\source\repos\Modulo1\obj\Debug\net8.0\Modulo1.AssemblyInfo.cs
+C:\Users\apacheco\source\repos\Modulo1\obj\Debug\net8.0\Modulo1.csproj.CoreCompileInputs.cache
+C:\Users\apacheco\source\repos\Modulo1\obj\Debug\net8.0\Modulo1.dll
+C:\Users\apacheco\source\repos\Modulo1\obj\Debug\net8.0\refint\Modulo1.dll
+C:\Users\apacheco\source\repos\Modulo1\obj\Debug\net8.0\Modulo1.pdb
+C:\Users\apacheco\source\repos\Modulo1\obj\Debug\net8.0\Modulo1.genruntimeconfig.cache
+C:\Users\apacheco\source\repos\Modulo1\obj\Debug\net8.0\ref\Modulo1.dll
