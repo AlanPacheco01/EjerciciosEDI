@@ -1,0 +1,10 @@
+C:\Users\apacheco\source\repos\ejemplo\ejemplo\obj\Debug\ejemplo.csproj.AssemblyReference.cache
+C:\Users\apacheco\source\repos\ejemplo\ejemplo\obj\Debug\ejemplo.Form1.resources
+C:\Users\apacheco\source\repos\ejemplo\ejemplo\obj\Debug\ejemplo.Properties.Resources.resources
+C:\Users\apacheco\source\repos\ejemplo\ejemplo\obj\Debug\ejemplo.csproj.GenerateResource.cache
+C:\Users\apacheco\source\repos\ejemplo\ejemplo\obj\Debug\ejemplo.csproj.CoreCompileInputs.cache
+C:\Users\apacheco\source\repos\ejemplo\ejemplo\bin\Debug\ejemplo.exe.config
+C:\Users\apacheco\source\repos\ejemplo\ejemplo\bin\Debug\ejemplo.exe
+C:\Users\apacheco\source\repos\ejemplo\ejemplo\bin\Debug\ejemplo.pdb
+C:\Users\apacheco\source\repos\ejemplo\ejemplo\obj\Debug\ejemplo.exe
+C:\Users\apacheco\source\repos\ejemplo\ejemplo\obj\Debug\ejemplo.pdb

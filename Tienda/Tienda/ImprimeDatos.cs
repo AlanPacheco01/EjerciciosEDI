@@ -19,5 +19,8 @@ namespace Tienda
         }
 
        
+        public void PrintData()
+        {              
+        }
     }
 }

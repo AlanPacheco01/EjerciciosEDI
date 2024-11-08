@@ -459,7 +459,7 @@ namespace Tienda
                 //muestra la información de cada empleado
                 foreach (var datos in empleado)
                 {
-                    Console.ForegroundColor = ConsoleColor.DarkBlue;
+                    Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine($"{datos}");
                 }
                 Console.ForegroundColor = ConsoleColor.White;

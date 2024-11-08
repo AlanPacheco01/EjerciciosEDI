@@ -11,7 +11,6 @@ namespace UsoRegex
             Match RegexSel = Regex.Match(input, patterSeleccion);
             bool IsValidSel = RegexSel.Success;
             bool IsEmptySel = string.IsNullOrEmpty(input);
-
             bool comparativo = IsValidSel && !IsEmptySel;
             return comparativo;
         }

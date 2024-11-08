@@ -7,7 +7,6 @@ namespace Tienda
     {
         //Instancia los objetos necesarios para la prueba
         TiendaService conexion = new TiendaService();
-        TiendaModel user = new TiendaModel();
 
         //Invoca los métodos necesarios para que el usuario pueda interactuar con el programa
         public void Interaccion()
@@ -56,6 +55,7 @@ namespace Tienda
                     //Le muestra al usuario las funcionalidades de la aplicación
                     OpcionesPantallaInicio();
 
+                    //Imprime el dibujo en la parte superior de la pantalla
                     DibujoInf();
 
                     //Le da al usuario la facultad de selecionar la operación
